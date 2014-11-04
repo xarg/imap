@@ -14,7 +14,7 @@ const (
 	ctl  = 0x20
 	char = 0x80
 	cr   = '\r'
-	lf   = '\n'
+	LF   = '\n'
 )
 
 // Quote returns the input as a quoted string for use in a command. An empty
@@ -34,7 +34,7 @@ func QuoteBytes(s []byte, utf8quoted bool) []byte {
 		if c := s[i]; c < char {
 			if c == '"' || c == '\\' {
 				escape++
-			} else if c < ctl && (c == nul || c == cr || c == lf) {
+			} else if c < ctl && (c == nul || c == cr || c == LF) {
 				return nil
 			}
 			i++
@@ -146,7 +146,7 @@ func unquote(q []byte) (s []byte, ok bool) {
 				} else if c = q[i]; c != '"' && c != '\\' {
 					return
 				}
-			} else if c < ctl && (c == nul || c == cr || c == lf) || c == '"' {
+			} else if c < ctl && (c == nul || c == cr || c == LF) || c == '"' {
 				return
 			}
 			b = append(b, c)

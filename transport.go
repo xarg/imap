@@ -16,8 +16,8 @@ import (
 
 // Labels for identifying the source of log entries.
 const (
-	client = 'C'
-	server = 'S'
+	clientLabel = 'C'
+	serverLabel = 'S'
 )
 
 // Limit for the maximum number of characters to print in messages containing
