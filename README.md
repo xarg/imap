@@ -7,8 +7,8 @@ IMAP client and server implementation in Go.
 
 This project is the result of an unification effort of 2 projects:
 
-https://github.com/mxk/go-imap - IMAP client written in Go
-https://github.com/alienscience/imapsrv - IMAP server written in Go
+* https://github.com/mxk/go-imap - IMAP client written in Go
+* https://github.com/alienscience/imapsrv - IMAP server written in Go
 
 
 The motivation behind this merge is code reuse, easier testing and easier contribution.
