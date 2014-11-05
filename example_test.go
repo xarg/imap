@@ -10,7 +10,7 @@ import (
 	"net/mail"
 	"time"
 
-	"github.com/mxk/go-imap/imap"
+	"github.com/xarg/imap"
 )
 
 func ExampleClient() {

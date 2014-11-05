@@ -3,4 +3,4 @@ go: 1.3
 install:
   - go get -v github.com/xarg/imap
 script:
-  - go test github.com/xarg/imap
+  - go test -v github.com/xarg/imap
