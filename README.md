@@ -1,6 +1,8 @@
 package imap
 ============
 
+[![Build Status](https://travis-ci.org/xarg/imap.svg?branch=master)](https://travis-ci.org/xarg/imap)
+
 IMAP client and server implementation in Go.
 
 This project is the result of an unification effort of 2 projects:
