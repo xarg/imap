@@ -185,7 +185,7 @@ func (t *transport) ReadLine() (line []byte, err error) {
 	} else if err == bufio.ErrBufferFull {
 		err = &ProtocolError{"line too long", line}
 	}
-	t.LogLine(server, line, err)
+	t.LogLine(serverLabel, line, err)
 	return
 }
 
@@ -216,7 +216,7 @@ func (t *transport) WriteLine(line []byte) error {
 			_, err = t.buf.Write(crlf)
 		}
 	}
-	t.LogLine(client, line, err)
+	t.LogLine(clientLabel, line, err)
 	return err
 }
 
@@ -224,7 +224,7 @@ func (t *transport) WriteLine(line []byte) error {
 // (0 <= n <= len(p)) and any error encountered.
 func (t *transport) Read(p []byte) (n int, err error) {
 	n, err = t.buf.Read(p)
-	t.LogBytes(server, n, err)
+	t.LogBytes(serverLabel, n, err)
 	return
 }
 
@@ -233,7 +233,7 @@ func (t *transport) Read(p []byte) (n int, err error) {
 // that caused the write to stop early.
 func (t *transport) Write(p []byte) (n int, err error) {
 	n, err = t.buf.Write(p)
-	t.LogBytes(client, n, err)
+	t.LogBytes(clientLabel, n, err)
 	return
 }
 

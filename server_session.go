@@ -73,7 +73,7 @@ func (s *session) selectMailbox(name string) (bool, error) {
 }
 
 // Add mailbox information to the given response
-func (s *session) addMailboxInfo(resp *response) error {
+func (s *session) addMailboxInfo(resp *serverResponse) error {
 	for _, mailstore := range s.config.Mailstores {
 		// Get the mailbox information from the mailstore
 		firstUnseen, err := mailstore.FirstUnseen(s.mailbox.Id)

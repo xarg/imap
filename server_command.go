@@ -11,7 +11,7 @@ import (
 // An IMAP command
 type command interface {
 	// Execute the command and return an imap response
-	execute(s *session) *response
+	execute(s *session) *serverResponse
 }
 
 //------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ type noop struct {
 }
 
 // Execute a noop
-func (c *noop) execute(s *session) *response {
+func (c *noop) execute(s *session) *serverResponse {
 	return ok(c.tag, "NOOP Completed")
 }
 
@@ -33,7 +33,7 @@ type capability struct {
 }
 
 // Execute a capability
-func (c *capability) execute(s *session) *response {
+func (c *capability) execute(s *session) *serverResponse {
 	// The IMAP server is assumed to be running over SSL and so
 	// STARTTLS is not supported and LOGIN is not disabled
 	return ok(c.tag, "CAPABILITY completed").
@@ -50,7 +50,7 @@ type login struct {
 }
 
 // Login command
-func (c *login) execute(sess *session) *response {
+func (c *login) execute(sess *session) *serverResponse {
 
 	// Has the user already logged in?
 	if sess.st != notAuthenticated {
@@ -77,7 +77,7 @@ type logout struct {
 }
 
 // Logout command
-func (c *logout) execute(sess *session) *response {
+func (c *logout) execute(sess *session) *serverResponse {
 
 	sess.st = notAuthenticated
 	return ok(c.tag, "LOGOUT completed").
@@ -94,7 +94,7 @@ type selectMailbox struct {
 }
 
 // Select command
-func (c *selectMailbox) execute(sess *session) *response {
+func (c *selectMailbox) execute(sess *session) *serverResponse {
 
 	// Is the user authenticated?
 	if sess.st != authenticated {
@@ -135,7 +135,7 @@ type unknownCommand struct {
 }
 
 // Report an error for an unknown command
-func (c *unknownCommand) execute(s *session) *response {
+func (c *unknownCommand) execute(s *session) *serverResponse {
 	message := fmt.Sprintf("%s unknown command", c.cmd)
 	s.log(message)
 	return bad(c.tag, message)
@@ -144,7 +144,7 @@ func (c *unknownCommand) execute(s *session) *response {
 //------ Helper functions ------------------------------------------------------
 
 // Log an error and return an response
-func internalError(sess *session, tag string, commandName string, err error) *response {
+func internalError(sess *session, tag string, commandName string, err error) *serverResponse {
 	message := commandName + " " + err.Error()
 	sess.log(message)
 	return no(tag, message).shouldClose()

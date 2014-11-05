@@ -100,7 +100,7 @@ func (p *parser) selectC(tag string) command {
 func (p *parser) unknown(tag string, cmd string) command {
 	for tok := p.lexer.next(); tok.tokType != eolTokenType; tok = p.lexer.next() {
 	}
-	return &unknown{tag: tag, cmd: cmd}
+	return &unknownCommand{tag: tag, cmd: cmd}
 }
 
 // Match the given token
