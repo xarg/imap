@@ -4,7 +4,10 @@
 
 package imap
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 // Note:
 //   Most of this code was copied, with some modifications, from net/smtp. It
@@ -74,5 +77,26 @@ func (a plainAuth) Start(s *ServerInfo) (mech string, ir []byte, err error) {
 }
 
 func (a plainAuth) Next(challenge []byte) (response []byte, err error) {
+	return nil, errors.New("unexpected server challenge")
+}
+
+type xoauth2Auth []byte
+
+// xoauth2Auth returns an implementation of the XOAUTH2 authentication mechanism, as
+// described in https://developers.google.com/gmail/xoauth2_protocol.
+func XOAUTH2Auth(username, token string) SASL {
+	return xoauth2Auth(fmt.Sprintf("user=%s\x01auth=Bearer %s\x01\x01", username, token))
+}
+
+func (a xoauth2Auth) Start(s *ServerInfo) (mech string, ir []byte, err error) {
+	if !s.TLS {
+		err = NotAvailableError("AUTH=XOAUTH2")
+	} else {
+		mech, ir = "XOAUTH2", a
+	}
+	return
+}
+
+func (a xoauth2Auth) Next(challenge []byte) (response []byte, err error) {
 	return nil, errors.New("unexpected server challenge")
 }
