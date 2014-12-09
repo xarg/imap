@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"fmt"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -59,6 +60,14 @@ func AsAtom(f Field) string {
 func AsNumber(f Field) uint32 {
 	v, _ := f.(uint32)
 	return v
+}
+
+// AsUint64 returns the value of a numeric field. Zero is returned if TypeOf(f)
+// != Number.
+func AsUint64(f Field) uint64 {
+	v, _ := f.(string)
+	x, _ := strconv.ParseUint(v, 10, 0)
+	return x
 }
 
 // AsString returns the value of an astring (string or atom) field. Quoted
